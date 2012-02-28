@@ -1,8 +1,8 @@
 spec = Gem::Specification.new do |s|
   s.name = "anemone"
-  s.version = "0.7.1"
-  s.author = "Chris Kite"
-  s.homepage = "http://anemone.rubyforge.org"
+  s.version = "0.7.2"
+  s.author = "MaGonglei"
+  s.homepage = "https://github.com/MaGonglei/anemone"
   s.rubyforge_project = "anemone"
   s.platform = Gem::Platform::RUBY
   s.summary = "Anemone web-spider framework"

@@ -1,3 +1,9 @@
+== 0.7.2 / 2012-02-28
+*Merge https://github.com/chriskite/anemone/tree/master 0.7.1
+
+Conflicts:
+	lib/anemone/page.rb
+
 == 0.7.1 / 2012-01-20
 
 * Minor enhancements

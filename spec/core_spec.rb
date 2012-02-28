@@ -42,6 +42,18 @@ module Anemone
         core.pages.keys.should_not include('http://www.other.com/')
       end
 
+      it "should follow links to subdomains" do
+        pages = []
+        pages << FakePage.new('0', :links => ['1'], :hrefs => [ 'http://www.other.com/', 'http://subdomain.example.com/'] )
+        pages << FakePage.new('1')
+
+        core = Anemone.crawl(pages[0].url, @opts.merge({:crawl_subdomains => true}))
+
+        core.should have(3).pages
+        core.pages.keys.should_not include('http://www.other.com/')
+        core.pages.keys.should include('http://subdomain.example.com/')
+      end
+
       it "should follow http redirects" do
         pages = []
         pages << FakePage.new('0', :links => ['1'])
@@ -86,11 +98,11 @@ module Anemone
         pages << FakePage.new('0', :links => ['1?foo=1', '2'])
         pages << FakePage.new('1?foo=1')
         pages << FakePage.new('2')
-        
+
         core = Anemone.crawl(pages[0].url, @opts) do |a|
           a.skip_query_strings = true
         end
-        
+
         core.should have(2).pages
       end
 
@@ -129,8 +141,8 @@ module Anemone
       end
 
       it "should optionally discard page bodies to conserve memory" do
-       # core = Anemone.crawl(FakePage.new('0').url, @opts.merge({:discard_page_bodies => true}))
-       # core.pages.values.first.doc.should be_nil
+        # core = Anemone.crawl(FakePage.new('0').url, @opts.merge({:discard_page_bodies => true}))
+        # core.pages.values.first.doc.should be_nil
       end
 
       it "should provide a focus_crawl method to select the links on each page to follow" do
@@ -301,11 +313,11 @@ module Anemone
     describe "options" do
       it "should accept options for the crawl" do
         core = Anemone.crawl(SPEC_DOMAIN, :verbose => false,
-                                          :threads => 2,
-                                          :discard_page_bodies => true,
-                                          :user_agent => 'test',
-                                          :obey_robots_txt => true,
-                                          :depth_limit => 3)
+                             :threads => 2,
+                             :discard_page_bodies => true,
+                             :user_agent => 'test',
+                             :obey_robots_txt => true,
+                             :depth_limit => 3)
 
         core.opts[:verbose].should == false
         core.opts[:threads].should == 2
